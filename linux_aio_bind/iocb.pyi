@@ -1,7 +1,14 @@
 # coding: UTF-8
 
 from ctypes import Structure, c_int16, c_int64, c_size_t, c_uint, c_uint16, c_uint32, c_uint64, c_void_p
-from enum import IntEnum, IntFlag
+
+from enum import IntEnum
+
+try:
+    from enum import IntFlag
+except ImportError:
+    IntFlag = IntEnum
+
 from typing import Tuple, Type, Union, overload
 
 __all__ = (

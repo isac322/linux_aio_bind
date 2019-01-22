@@ -7,7 +7,7 @@ __all__ = ()
 _ffibuilder = FFI()
 
 _ffibuilder.set_source(
-        'linux_aio.raw._syscall',
+        'linux_aio_bind._syscall',
         r'#include <sys/syscall.h>'
 )
 

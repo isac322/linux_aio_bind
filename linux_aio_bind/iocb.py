@@ -1,11 +1,17 @@
 # coding: UTF-8
 
-import os
 import sys
 from ctypes import (
     Structure, c_int16, c_int64, c_size_t, c_uint, c_uint16, c_uint32, c_uint64, c_ulong, c_void_p, sizeof
 )
-from enum import IntEnum, IntFlag
+
+import os
+from enum import IntEnum
+
+try:
+    from enum import IntFlag
+except ImportError:
+    IntFlag = IntEnum
 
 _PADDED = {
     (4, 'little'): lambda w, x, y: ((x, w), (y, c_uint)),
@@ -17,31 +23,35 @@ _PADDED = {
 
 class IOCB(Structure):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
-    _fields_ = (
-        # internal fields used by the kernel
-        ('aio_data', c_uint64),
-        *_PADDED(c_uint32, 'aio_key', 'aio_rw_flags'),
+    _fields_ = \
+        (
+            # internal fields used by the kernel
+            ('aio_data', c_uint64),
+        ) \
+        + \
+        _PADDED(c_uint32, 'aio_key', 'aio_rw_flags') \
+        + \
+        (
+            # common fields
+            ('aio_lio_opcode', c_uint16),
+            ('aio_reqprio', c_int16),
+            ('aio_fildes', c_uint32),
 
-        # common fields
-        ('aio_lio_opcode', c_uint16),
-        ('aio_reqprio', c_int16),
-        ('aio_fildes', c_uint32),
+            ('aio_buf', c_uint64),
+            ('aio_nbytes', c_uint64),
+            ('aio_offset', c_int64),
 
-        ('aio_buf', c_uint64),
-        ('aio_nbytes', c_uint64),
-        ('aio_offset', c_int64),
+            # extra parameters
+            ('aio_reserved2', c_uint64),
 
-        # extra parameters
-        ('aio_reserved2', c_uint64),
+            # flags for IOCB
+            ('aio_flags', c_uint32),
 
-        # flags for IOCB
-        ('aio_flags', c_uint32),
-
-        # if the IOCBFlag.RESFD flag of "aio_flags" is set, this is an eventfd to signal AIO readiness to
-        ('aio_resfd', c_uint32),
-    )
+            # if the IOCBFlag.RESFD flag of "aio_flags" is set, this is an eventfd to signal AIO readiness to
+            ('aio_resfd', c_uint32),
+        )
 
 
 class IOVec(Structure):
@@ -56,7 +66,7 @@ class IOVec(Structure):
 
 class IOCBCMD(IntEnum):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     PREAD = 0
     PWRITE = 1
@@ -73,7 +83,7 @@ class IOCBCMD(IntEnum):
     PWRITEV = 8
 
     @classmethod
-    def from_param(cls, obj) -> int:
+    def from_param(cls, obj):
         return int(obj)
 
 
@@ -81,13 +91,13 @@ class IOCBFlag(IntFlag):
     """
     flags for :attr:`IOCB.aio_flags`
 
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     RESFD = 1 << 0
     IOPRIO = 1 << 1
 
     @classmethod
-    def from_param(cls, obj) -> int:
+    def from_param(cls, obj):
         return int(obj)
 
 
@@ -96,7 +106,7 @@ class IOCBRWFlag(IntFlag):
     """
     flags for :attr:`IOCB.aio_rw_flags`. from linux code (/include/uapi/linux/fs.h)
 
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     HIPRI = 1 << 0 if not hasattr(os, 'RWF_HIPRI') else os.RWF_HIPRI
     DSYNC = 1 << 1 if not hasattr(os, 'RWF_DSYNC') else os.RWF_DSYNC
@@ -105,7 +115,7 @@ class IOCBRWFlag(IntFlag):
     APPEND = 1 << 4
 
     @classmethod
-    def from_param(cls, obj) -> int:
+    def from_param(cls, obj):
         return int(obj)
 
 
@@ -114,7 +124,7 @@ class IOCBPriorityClass(IntEnum):
     """
     priority class. from linux code (/include/linux/ioprio.h)
 
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     NONE = 0
     RT = 1
@@ -122,15 +132,15 @@ class IOCBPriorityClass(IntEnum):
     IDLE = 3
 
     @classmethod
-    def from_param(cls, obj) -> int:
+    def from_param(cls, obj):
         return int(obj)
 
 
 IOPRIO_CLASS_SHIFT = 13
 
 
-def gen_io_priority(priority_class: IOCBPriorityClass, priority: int) -> int:
+def gen_io_priority(priority_class, priority):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     return (priority_class << IOPRIO_CLASS_SHIFT) | priority

@@ -3,9 +3,8 @@
 from ctypes import get_errno
 from errno import EAGAIN, EBADF, EFAULT, EINTR, EINVAL, ENOMEM, ENOSYS, errorcode
 from os import strerror
-from typing import Dict, Mapping, NoReturn
 
-setup_err_map: Dict[int, str] = {
+setup_err_map = {
     EAGAIN:
         'The specified max_jobs (given: {0}) exceeds the user\'s limit of available events,'
         ' as defined in /proc/sys/fs/aio-max-nr (limit: {1}).',
@@ -28,7 +27,7 @@ setup_err_map: Dict[int, str] = {
 2: :const:`~linux_aio.raw.aio.aio_context_t`
 """
 
-destroy_err_map: Dict[int, str] = {
+destroy_err_map = {
     EFAULT: 'Report to library author with message: "The context pointed to is invalid ({0})."',
     EINVAL: 'Report to library author with message: "The AIO context specified by ctx_id is invalid ({0})."',
     ENOSYS: setup_err_map[ENOSYS]
@@ -37,7 +36,7 @@ destroy_err_map: Dict[int, str] = {
 0: :const:`~linux_aio.raw.aio.aio_context_t`,
 """
 
-cancel_err_map: Dict[int, str] = {
+cancel_err_map = {
     EAGAIN: 'The iocb specified was not canceled.',
     EFAULT: 'One of the data structures points to invalid data.',
     EINVAL: destroy_err_map[EINVAL],
@@ -47,7 +46,7 @@ cancel_err_map: Dict[int, str] = {
 0: :const:`~linux_aio.raw.aio.aio_context_t`,
 """
 
-get_events_err_map: Dict[int, str] = {
+get_events_err_map = {
     EFAULT: 'timeout_ns is invalid. If not, report to library author with message: "events or timespec is invalid"',
     EINTR: 'Interrupted by a signal handler; see signal(7).',
     EINVAL: 'min_jobs ({1}) is out of range or max_jobs ({2}) is out of range. If not both, ' + destroy_err_map[EINVAL],
@@ -61,7 +60,7 @@ get_events_err_map: Dict[int, str] = {
 2: max_jobs
 """
 
-submit_err_map: Dict[int, str] = {
+submit_err_map = {
     EAGAIN: 'Insufficient resources are available to queue any `AIOBlock`s.',
     EBADF: 'The file descriptor specified in the first `AIOBlock` is invalid.',
     EFAULT: 'One of the data structures points to invalid data.',
@@ -75,13 +74,13 @@ submit_err_map: Dict[int, str] = {
 """
 
 
-def handle_error(error_map: Mapping[int, str], *args) -> NoReturn:
+def handle_error(error_map, *args):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
-    err: int = get_errno()
+    err = get_errno()
 
-    def_msg = f'{errorcode[err]}, {strerror(err)}.'
+    def_msg = '{}, {}.'.format(errorcode[err], strerror(err))
 
     if err in error_map:
         raise OSError(err, def_msg, error_map[err].format(*args))

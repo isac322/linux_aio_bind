@@ -1,8 +1,8 @@
 # coding: UTF-8
 
-from ctypes import CDLL, POINTER, Structure, c_int64, c_long, c_uint, c_uint64, c_ulong
+from ctypes import CDLL, POINTER, Structure, c_int64, c_long, c_uint64, c_ulong
+
 from ctypes.util import find_library
-from typing import Optional
 
 from ._syscall import lib
 from .error import cancel_err_map, destroy_err_map, get_events_err_map, handle_error, setup_err_map, submit_err_map
@@ -17,7 +17,7 @@ _syscall = _libc.syscall
 
 class Timespec(Structure):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     _fields_ = (
         ('tv_sec', c_long),
@@ -27,7 +27,7 @@ class Timespec(Structure):
 
 class IOEvent(Structure):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     _fields_ = (
         ('data', c_uint64),
@@ -45,9 +45,9 @@ io_event_p = POINTER(IOEvent)
 timespec_p = POINTER(Timespec)
 
 
-def io_setup(max_jobs: c_uint, context_p: aio_context_t_p) -> None:
+def io_setup(max_jobs, context_p):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     ret = _syscall(lib.SYS_io_setup, max_jobs, context_p)
 
@@ -55,9 +55,9 @@ def io_setup(max_jobs: c_uint, context_p: aio_context_t_p) -> None:
         handle_error(setup_err_map, max_jobs.value, _JOB_LIMIT, context_p.contents)
 
 
-def io_destroy(context: aio_context_t) -> None:
+def io_destroy(context):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     ret = _syscall(lib.SYS_io_destroy, context)
 
@@ -65,9 +65,9 @@ def io_destroy(context: aio_context_t) -> None:
         handle_error(destroy_err_map, context.value)
 
 
-def io_submit(context: aio_context_t, num_jobs: c_long, iocb_p_list: iocb_pp) -> int:
+def io_submit(context, num_jobs, iocb_p_list):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     ret = _syscall(lib.SYS_io_submit, context, num_jobs, iocb_p_list)
 
@@ -77,13 +77,12 @@ def io_submit(context: aio_context_t, num_jobs: c_long, iocb_p_list: iocb_pp) ->
     return ret
 
 
-def io_getevents(context: aio_context_t, min_jobs: c_long, max_jobs: c_long,
-                 events: io_event_p, timeout: Optional[timespec_p]) -> int:
+def io_getevents(context, min_jobs, max_jobs, events, timeout):
     """
     return value can be less than min_jobs. because io_getevents can be interrupted by signal during processing
     (io_pgetevents does not, but not fully implemented yet)
 
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     ret = _syscall(lib.SYS_io_getevents, context, min_jobs, max_jobs, events, timeout)
 
@@ -93,9 +92,9 @@ def io_getevents(context: aio_context_t, min_jobs: c_long, max_jobs: c_long,
     return ret
 
 
-def io_cancel(context: aio_context_t, iocb: iocb_p, result: io_event_p) -> None:
+def io_cancel(context, iocb, result):
     """
-    .. versionadded:: 0.1.0
+    .. versionadded:: 1.0.0
     """
     ret = _syscall(lib.SYS_io_cancel, context, iocb, result)
 
