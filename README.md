@@ -2,15 +2,13 @@
 
 # linux_aio_bind: Python binding for [Linux Kernel AIO](http://lse.sourceforge.net/io/aio.html)
 
-<!---
-[![](https://img.shields.io/travis/com/isac322/linux_aio.svg?style=flat-square)](https://travis-ci.com/isac322/linux_aio)
-[![](https://img.shields.io/pypi/v/linux_aio.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
-[![](https://img.shields.io/codecov/c/github/isac322/linux_aio.svg?style=flat-square)](https://codecov.io/gh/isac322/linux_aio)
-[![](https://img.shields.io/pypi/implementation/linux_aio.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
-[![](https://img.shields.io/pypi/pyversions/linux_aio.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
-[![](https://img.shields.io/pypi/wheel/linux_aio.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
-[![](https://img.shields.io/pypi/l/linux_aio.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
--->
+[![](https://img.shields.io/travis/com/isac322/linux_aio_bind.svg?style=flat-square)](https://travis-ci.com/isac322/linux_aio_bind)
+[![](https://img.shields.io/pypi/v/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
+[![](https://img.shields.io/codecov/c/github/isac322/linux_aio_bind.svg?style=flat-square)](https://codecov.io/gh/isac322/linux_aio_bind)
+[![](https://img.shields.io/pypi/implementation/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
+[![](https://img.shields.io/pypi/pyversions/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
+[![](https://img.shields.io/pypi/wheel/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
+[![](https://img.shields.io/pypi/l/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio/)
 
 A low-level python binding module that matches the Linux kernel AIO system call.
 
