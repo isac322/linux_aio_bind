@@ -53,7 +53,7 @@ POSIX AIO의 API들은 `aio_` 접두사를 가지지만, Linux Kernel AIO는 `io
 
 ## 예제
 
-[test](test)의 코드들에서 예제 확인 가능
+[test](https://github.com/isac322/linux_aio_bind/tree/master/test)의 코드들에서 예제 확인 가능
 
 
 ## Notes & Limits

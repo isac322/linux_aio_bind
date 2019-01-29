@@ -57,7 +57,7 @@ setup(
         setup_requires=['cffi>=1.0.0'],
         install_requires=[
             'cffi>=1.0.0',
-            'enum34;python_version<="3.3"'
+            'enum34;python_version<"3.4"'
         ],
         extras_require={
             'stub': ['typing']

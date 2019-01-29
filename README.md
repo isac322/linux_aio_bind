@@ -53,7 +53,7 @@ So, as you can see from [the experiment](https://github.com/isac322/linux_aio#ev
 
 ## Example
 
-Examples can be found in the code in the [test directory](test).
+Examples can be found in the code in the [test directory](https://github.com/isac322/linux_aio_bind/tree/master/test).
 
 
 ## Notes & Limits
