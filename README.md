@@ -9,6 +9,7 @@
 [![](https://img.shields.io/pypi/pyversions/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio-bind/)
 [![](https://img.shields.io/pypi/wheel/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio-bind/)
 [![](https://img.shields.io/pypi/l/linux_aio_bind.svg?style=flat-square)](https://pypi.org/project/linux-aio-bind/)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/isac322)
 
 A low-level python binding module that matches the Linux kernel AIO system call.
 
